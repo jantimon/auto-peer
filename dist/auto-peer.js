@@ -1,55 +1,57 @@
-/*! auto-peer build:0.0.1, development. Copyright(c) 2014 Jan Nicklas */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.0.1, development. Copyright(c) 2014 Jan Nicklasdepends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var EventEmitter = require('eventemitter3');
 var Peer = require('peerjs');
 var io = require('socket.io-client');
 
 function AutoPeer(options) {
-	if (!(this instanceof AutoPeer)) return new AutoPeer(options);
+  if (!(this instanceof AutoPeer)) {
+    return new AutoPeer(options);
+  }
 
-	var socket = io();
-	var _this = this;
-	_this.socket = socket;
+  var socket = io();
+  var _this = this;
+  _this.socket = socket;
 
-	var connections = [];
-    socket.on('connected', function(clientId) {
-      // Open webrct connection
-      var peer = new Peer(clientId, options);
-      // Tell other clients to connect to this new peer using webrct
-      peer.on('open', function() {
-        socket.emit('webrtc', 'connected');
-        _this.emit('connected', clientId);
-      });
-      // Outgoing webRTC Connections when socketIo informs this client about a new user
-      socket.on('new-connection', function(targetClientId){
-        initializeWebRTC(peer.connect(targetClientId));
-      })
-      // Incomming webRTC Connections
-      peer.on('connection', function(connection) {
-        initializeWebRTC(connection);
-      });
-
-      // Called when a new initializeWebRTC is created
-      function initializeWebRTC(connection) {
-        connection.on('data', function(data) {
-          _this.emit('data', data);
-        });
-        connections.push(connection);
-      }
+  var connections = [];
+  socket.on('connected', function (clientId) {
+    // Open webrtc connection
+    var peer = new Peer(clientId, options);
+    // Tell other clients to connect to this new peer using webrct
+    peer.on('open', function () {
+      socket.emit('webrtc', 'connected');
+      _this.emit('connected', clientId);
+    });
+    // Outgoing webRTC Connections when socketIo informs this client about a new user
+    socket.on('new-connection', function (targetClientId) {
+      initializeWebRTC(peer.connect(targetClientId));
+    });
+    // Incoming webRTC Connections
+    peer.on('connection', function (connection) {
+      initializeWebRTC(connection);
     });
 
-	_this.send = function(data, self) {
-		if(connections) {
-		  connections.forEach(function(connection){
-		    connection.send(data);
-		  });
-		}
+    // Called when a new initializeWebRTC is created
+    function initializeWebRTC(connection) {
+      connection.on('data', function (data) {
+        _this.emit('data', data);
+      });
+      connections.push(connection);
+    }
+  });
+
+  _this.send = function (data, self) {
+    if (connections) {
+      connections.forEach(function (connection) {
+        connection.send(data);
+      });
+    }
     if (self) {
       _this.emit('data', data);
     }
-	}
+  };
 }
 
-AutoPeer.prototype = new EventEmitter;
+AutoPeer.prototype = new EventEmitter();
 
 module.exports = AutoPeer;
 },{"eventemitter3":3,"peerjs":9,"socket.io-client":16}],2:[function(require,module,exports){
@@ -8849,7 +8851,7 @@ function isBuf(obj) {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],60:[function(require,module,exports){
 module.exports=require(53)
-},{"/Users/jan/Desktop/wall/auto-peer/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/index.js":53}],61:[function(require,module,exports){
+},{"/Users/jan/Downloads/wall/auto-peer/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/index.js":53}],61:[function(require,module,exports){
 /*! JSON v3.2.6 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
 ;(function (window) {
   // Convenience aliases.

@@ -20,6 +20,8 @@ When the user opens the application a new client is created. This client asks th
 
 ## Example
 
+[Take a look at the example directory](https://github.com/jantimon/auto-peer/tree/master/examples).
+
 Server
 
 ```JavaScript
@@ -47,7 +49,7 @@ Client
     console.log('received data', data);
   });
   autoPeer.send('This is a message to all connected peers');
-<script>
+</script>
 ```
 
 

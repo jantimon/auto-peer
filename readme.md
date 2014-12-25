@@ -10,6 +10,9 @@ The auto-peer.js library is an experimental webRTC client/server library which r
 
 The idea auto-peer.js was developed when creating a multi media installation for a couple of tablets. It should allow to communicate from tablet to tablet as fast as possible.
 
+![http://engineering.spilgames.com/mastering-webrtc/](http://auth-83051f68-ec6c-44e0-afe5-bd8902acff57.cdn.spilcloud.com/10/1405328465_WebRTC_ping_testresults.png)  
+from http://engineering.spilgames.com/mastering-webrtc/
+
 ## How does it work?
 
 auto-peer.js core consists of a node websocket backend and a client side script.

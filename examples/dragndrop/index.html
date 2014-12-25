@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Playground - Drag'n'Drop</title>
+    <style>
+    #test {
+      position: absolute;
+      display: block;
+      border: 1px solid transparent;
+    }
+    #test.over {
+      border-color: red;
+    }
+    </style>
+  </head>
+  <body>
+
+    <a id="test">test</a>
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="/auto-peer.js"></script>
+    <script>
+      /* Sync module */
+      var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+
+      autoPeer.on('data', function(data){
+        if(data.selector && data.fn) {
+          if(!$.isArray(data.args)) {
+            data.args = [data.args];
+          }
+          $.fn[data.fn].apply($(data.selector), data.args);
+        }
+      });
+
+      var $sync = function(selector){
+        if (!(this instanceof $sync)) return new $sync(selector);
+        this.selector = selector;
+      };
+
+      Object.keys($.fn).forEach(function(name){
+        $sync.prototype[name] = function() {
+          autoPeer.send({
+            selector: this.selector,
+            fn: name,
+            args:  Array.prototype.slice.call(arguments)
+          }, true);
+        }
+      });
+    </script>
+
+    <script>
+      var dragging = false
+      $(function () {
+        var $target = $sync('#test');
+        $('#test').mousedown(function() { dragging = true })
+        $(document).mouseup(function() { dragging = false })
+        $(document).mousemove(function(e) {
+          if(dragging){
+            $target.css({
+              'left': e.pageX,
+              'top': e.pageY
+            });
+          }
+        })
+      })
+    </script>
+
+
+  </body>
+</html>

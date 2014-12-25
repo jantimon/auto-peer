@@ -1,6 +1,6 @@
-  {
+{
   "name": "auto-peer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Automatic peer connection",
   "author": "Jan Nicklas",
   "main": "./lib/auto-peer.js",
@@ -10,6 +10,7 @@
     "url": "git://github.com/jantimon/auto-peer.git"
   },
   "devDependencies": {
+    "bundle-collapser": "^1.1.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.0.1",
     "grunt-cli": "^0.1.13",

@@ -1,7 +1,7 @@
-/*! auto-peer build:0.0.1, development. Copyright(c) 2014 Jan Nicklasdepends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var EventEmitter = require('eventemitter3');
-var Peer = require('peerjs');
-var io = require('socket.io-client');
+/*! auto-peer build:0.0.2, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var EventEmitter = require(3);
+var Peer = require(9);
+var io = require(16);
 
 function AutoPeer(options) {
   if (!(this instanceof AutoPeer)) {
@@ -54,9 +54,9 @@ function AutoPeer(options) {
 AutoPeer.prototype = new EventEmitter();
 
 module.exports = AutoPeer;
-},{"eventemitter3":3,"peerjs":9,"socket.io-client":16}],2:[function(require,module,exports){
-window.AutoPeer = require('./client');
-},{"./client":1}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
+window.AutoPeer = require(1);
+},{}],3:[function(require,module,exports){
 'use strict';
 
 /**
@@ -296,10 +296,10 @@ module.exports.RTCIceCandidate = window.RTCIceCandidate ||
 	window.mozRTCIceCandidate;
 
 },{}],5:[function(require,module,exports){
-var util = require('./util');
-var EventEmitter = require('eventemitter3');
-var Negotiator = require('./negotiator');
-var Reliable = require('reliable');
+var util = require(11);
+var EventEmitter = require(3);
+var Negotiator = require(8);
+var Reliable = require(14);
 
 /**
  * Wraps a DataChannel between two Peers.
@@ -564,22 +564,22 @@ DataConnection.prototype.handleMessage = function(message) {
 
 module.exports = DataConnection;
 
-},{"./negotiator":8,"./util":11,"eventemitter3":3,"reliable":14}],6:[function(require,module,exports){
-window.Socket = require('./socket');
-window.MediaConnection = require('./mediaconnection');
-window.DataConnection = require('./dataconnection');
-window.Peer = require('./peer');
-window.RTCPeerConnection = require('./adapter').RTCPeerConnection;
-window.RTCSessionDescription = require('./adapter').RTCSessionDescription;
-window.RTCIceCandidate = require('./adapter').RTCIceCandidate;
-window.Negotiator = require('./negotiator');
-window.util = require('./util');
-window.BinaryPack = require('js-binarypack');
+},{}],6:[function(require,module,exports){
+window.Socket = require(10);
+window.MediaConnection = require(7);
+window.DataConnection = require(5);
+window.Peer = require(9);
+window.RTCPeerConnection = require(4).RTCPeerConnection;
+window.RTCSessionDescription = require(4).RTCSessionDescription;
+window.RTCIceCandidate = require(4).RTCIceCandidate;
+window.Negotiator = require(8);
+window.util = require(11);
+window.BinaryPack = require(12);
 
-},{"./adapter":4,"./dataconnection":5,"./mediaconnection":7,"./negotiator":8,"./peer":9,"./socket":10,"./util":11,"js-binarypack":12}],7:[function(require,module,exports){
-var util = require('./util');
-var EventEmitter = require('eventemitter3');
-var Negotiator = require('./negotiator');
+},{}],7:[function(require,module,exports){
+var util = require(11);
+var EventEmitter = require(3);
+var Negotiator = require(8);
 
 /**
  * Wraps the streaming interface between two Peers.
@@ -673,11 +673,11 @@ MediaConnection.prototype.close = function() {
 
 module.exports = MediaConnection;
 
-},{"./negotiator":8,"./util":11,"eventemitter3":3}],8:[function(require,module,exports){
-var util = require('./util');
-var RTCPeerConnection = require('./adapter').RTCPeerConnection;
-var RTCSessionDescription = require('./adapter').RTCSessionDescription;
-var RTCIceCandidate = require('./adapter').RTCIceCandidate;
+},{}],8:[function(require,module,exports){
+var util = require(11);
+var RTCPeerConnection = require(4).RTCPeerConnection;
+var RTCSessionDescription = require(4).RTCSessionDescription;
+var RTCIceCandidate = require(4).RTCIceCandidate;
 
 /**
  * Manages all negotiations between Peers.
@@ -984,12 +984,12 @@ Negotiator.handleCandidate = function(connection, ice) {
 
 module.exports = Negotiator;
 
-},{"./adapter":4,"./util":11}],9:[function(require,module,exports){
-var util = require('./util');
-var EventEmitter = require('eventemitter3');
-var Socket = require('./socket');
-var MediaConnection = require('./mediaconnection');
-var DataConnection = require('./dataconnection');
+},{}],9:[function(require,module,exports){
+var util = require(11);
+var EventEmitter = require(3);
+var Socket = require(10);
+var MediaConnection = require(7);
+var DataConnection = require(5);
 
 /**
  * A peer who can initiate connections with other peers.
@@ -1483,9 +1483,9 @@ Peer.prototype.listAllPeers = function(cb) {
 
 module.exports = Peer;
 
-},{"./dataconnection":5,"./mediaconnection":7,"./socket":10,"./util":11,"eventemitter3":3}],10:[function(require,module,exports){
-var util = require('./util');
-var EventEmitter = require('eventemitter3');
+},{}],10:[function(require,module,exports){
+var util = require(11);
+var EventEmitter = require(3);
 
 /**
  * An abstraction on top of WebSockets and XHR streaming to provide fastest
@@ -1699,12 +1699,12 @@ Socket.prototype.close = function() {
 
 module.exports = Socket;
 
-},{"./util":11,"eventemitter3":3}],11:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var defaultConfig = {'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
 var dataCount = 1;
 
-var BinaryPack = require('js-binarypack');
-var RTCPeerConnection = require('./adapter').RTCPeerConnection;
+var BinaryPack = require(12);
+var RTCPeerConnection = require(4).RTCPeerConnection;
 
 var util = {
   noop: function() {},
@@ -2015,9 +2015,9 @@ var util = {
 
 module.exports = util;
 
-},{"./adapter":4,"js-binarypack":12}],12:[function(require,module,exports){
-var BufferBuilder = require('./bufferbuilder').BufferBuilder;
-var binaryFeatures = require('./bufferbuilder').binaryFeatures;
+},{}],12:[function(require,module,exports){
+var BufferBuilder = require(13).BufferBuilder;
+var binaryFeatures = require(13).binaryFeatures;
 
 var BinaryPack = {
   unpack: function(data){
@@ -2536,7 +2536,7 @@ function utf8Length(str){
   }
 }
 
-},{"./bufferbuilder":13}],13:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var binaryFeatures = {};
 binaryFeatures.useBlobBuilder = (function(){
   try {
@@ -2603,7 +2603,7 @@ BufferBuilder.prototype.getBuffer = function() {
 module.exports.BufferBuilder = BufferBuilder;
 
 },{}],14:[function(require,module,exports){
-var util = require('./util');
+var util = require(15);
 
 /**
  * Reliable transfer for Chrome Canary DataChannel impl.
@@ -2922,8 +2922,8 @@ Reliable.prototype.onmessage = function(msg) {};
 
 module.exports.Reliable = Reliable;
 
-},{"./util":15}],15:[function(require,module,exports){
-var BinaryPack = require('js-binarypack');
+},{}],15:[function(require,module,exports){
+var BinaryPack = require(12);
 
 var util = {
   debug: false,
@@ -3019,20 +3019,20 @@ var util = {
 
 module.exports = util;
 
-},{"js-binarypack":12}],16:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
-module.exports = require('./lib/');
+module.exports = require(17);
 
-},{"./lib/":17}],17:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /**
  * Module dependencies.
  */
 
-var url = require('./url');
-var parser = require('socket.io-parser');
-var Manager = require('./manager');
-var debug = require('debug')('socket.io-client');
+var url = require(21);
+var parser = require(58);
+var Manager = require(18);
+var debug = require(24)('socket.io-client');
 
 /**
  * Module exports.
@@ -3109,25 +3109,25 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = require('./manager');
-exports.Socket = require('./socket');
+exports.Manager = require(18);
+exports.Socket = require(20);
 
-},{"./manager":18,"./socket":20,"./url":21,"debug":24,"socket.io-parser":58}],18:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /**
  * Module dependencies.
  */
 
-var url = require('./url');
-var eio = require('engine.io-client');
-var Socket = require('./socket');
-var Emitter = require('component-emitter');
-var parser = require('socket.io-parser');
-var on = require('./on');
-var bind = require('component-bind');
-var object = require('object-component');
-var debug = require('debug')('socket.io-client:manager');
-var indexOf = require('indexof');
+var url = require(21);
+var eio = require(25);
+var Socket = require(20);
+var Emitter = require(23);
+var parser = require(58);
+var on = require(19);
+var bind = require(22);
+var object = require(55);
+var debug = require(24)('socket.io-client:manager');
+var indexOf = require(54);
 
 /**
  * Module exports
@@ -3587,7 +3587,7 @@ Manager.prototype.onreconnect = function(){
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":19,"./socket":20,"./url":21,"component-bind":22,"component-emitter":23,"debug":24,"engine.io-client":25,"indexof":54,"object-component":55,"socket.io-parser":58}],19:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -3619,13 +3619,13 @@ function on(obj, ev, fn) {
  * Module dependencies.
  */
 
-var parser = require('socket.io-parser');
-var Emitter = require('component-emitter');
-var toArray = require('to-array');
-var on = require('./on');
-var bind = require('component-bind');
-var debug = require('debug')('socket.io-client:socket');
-var hasBin = require('has-binary');
+var parser = require(58);
+var Emitter = require(23);
+var toArray = require(62);
+var on = require(19);
+var bind = require(22);
+var debug = require(24)('socket.io-client:socket');
+var hasBin = require(52);
 
 /**
  * Module exports.
@@ -3999,15 +3999,15 @@ Socket.prototype.disconnect = function(){
   return this;
 };
 
-},{"./on":19,"component-bind":22,"component-emitter":23,"debug":24,"has-binary":52,"socket.io-parser":58,"to-array":62}],21:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 
 /**
  * Module dependencies.
  */
 
-var parseuri = require('parseuri');
-var debug = require('debug')('socket.io-client:url');
+var parseuri = require(56);
+var debug = require(24)('socket.io-client:url');
 
 /**
  * Module exports.
@@ -4076,7 +4076,7 @@ function url(uri, loc){
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":24,"parseuri":56}],22:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Slice reference.
  */
@@ -4408,11 +4408,11 @@ try {
 
 },{}],25:[function(require,module,exports){
 
-module.exports =  require('./lib/');
+module.exports =  require(26);
 
-},{"./lib/":26}],26:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
-module.exports = require('./socket');
+module.exports = require(27);
 
 /**
  * Exports parser
@@ -4420,22 +4420,22 @@ module.exports = require('./socket');
  * @api public
  *
  */
-module.exports.parser = require('engine.io-parser');
+module.exports.parser = require(39);
 
-},{"./socket":27,"engine.io-parser":39}],27:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
  */
 
-var transports = require('./transports');
-var Emitter = require('component-emitter');
-var debug = require('debug')('engine.io-client:socket');
-var index = require('indexof');
-var parser = require('engine.io-parser');
-var parseuri = require('parseuri');
-var parsejson = require('parsejson');
-var parseqs = require('parseqs');
+var transports = require(29);
+var Emitter = require(23);
+var debug = require(36)('engine.io-client:socket');
+var index = require(54);
+var parser = require(39);
+var parseuri = require(50);
+var parsejson = require(48);
+var parseqs = require(49);
 
 /**
  * Module exports.
@@ -4535,9 +4535,9 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = require('./transport');
-Socket.transports = require('./transports');
-Socket.parser = require('engine.io-parser');
+Socket.Transport = require(28);
+Socket.transports = require(29);
+Socket.parser = require(39);
 
 /**
  * Creates transport of the given type.
@@ -5109,13 +5109,13 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transport":28,"./transports":29,"component-emitter":23,"debug":36,"engine.io-parser":39,"indexof":54,"parsejson":48,"parseqs":49,"parseuri":50}],28:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /**
  * Module dependencies.
  */
 
-var parser = require('engine.io-parser');
-var Emitter = require('component-emitter');
+var parser = require(39);
+var Emitter = require(23);
 
 /**
  * Module exports.
@@ -5261,16 +5261,16 @@ Transport.prototype.onClose = function () {
   this.emit('close');
 };
 
-},{"component-emitter":23,"engine.io-parser":39}],29:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies
  */
 
-var XMLHttpRequest = require('xmlhttprequest');
-var XHR = require('./polling-xhr');
-var JSONP = require('./polling-jsonp');
-var websocket = require('./websocket');
+var XMLHttpRequest = require(34);
+var XHR = require(31);
+var JSONP = require(30);
+var websocket = require(33);
 
 /**
  * Export transports.
@@ -5318,15 +5318,15 @@ function polling(opts){
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./polling-jsonp":30,"./polling-xhr":31,"./websocket":33,"xmlhttprequest":34}],30:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (global){
 
 /**
  * Module requirements.
  */
 
-var Polling = require('./polling');
-var inherit = require('component-inherit');
+var Polling = require(32);
+var inherit = require(35);
 
 /**
  * Module exports.
@@ -5555,17 +5555,17 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./polling":32,"component-inherit":35}],31:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (global){
 /**
  * Module requirements.
  */
 
-var XMLHttpRequest = require('xmlhttprequest');
-var Polling = require('./polling');
-var Emitter = require('component-emitter');
-var inherit = require('component-inherit');
-var debug = require('debug')('engine.io-client:polling-xhr');
+var XMLHttpRequest = require(34);
+var Polling = require(32);
+var Emitter = require(23);
+var inherit = require(35);
+var debug = require(36)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -5910,16 +5910,16 @@ function unloadHandler() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./polling":32,"component-emitter":23,"component-inherit":35,"debug":36,"xmlhttprequest":34}],32:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * Module dependencies.
  */
 
-var Transport = require('../transport');
-var parseqs = require('parseqs');
-var parser = require('engine.io-parser');
-var inherit = require('component-inherit');
-var debug = require('debug')('engine.io-client:polling');
+var Transport = require(28);
+var parseqs = require(49);
+var parser = require(39);
+var inherit = require(35);
+var debug = require(36)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -5932,7 +5932,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = (function() {
-  var XMLHttpRequest = require('xmlhttprequest');
+  var XMLHttpRequest = require(34);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 })();
@@ -6157,16 +6157,16 @@ Polling.prototype.uri = function(){
   return schema + '://' + this.hostname + port + this.path + query;
 };
 
-},{"../transport":28,"component-inherit":35,"debug":36,"engine.io-parser":39,"parseqs":49,"xmlhttprequest":34}],33:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * Module dependencies.
  */
 
-var Transport = require('../transport');
-var parser = require('engine.io-parser');
-var parseqs = require('parseqs');
-var inherit = require('component-inherit');
-var debug = require('debug')('engine.io-client:websocket');
+var Transport = require(28);
+var parser = require(39);
+var parseqs = require(49);
+var inherit = require(35);
+var debug = require(36)('engine.io-client:websocket');
 
 /**
  * `ws` exposes a WebSocket-compatible interface in
@@ -6174,7 +6174,7 @@ var debug = require('debug')('engine.io-client:websocket');
  * in the browser.
  */
 
-var WebSocket = require('ws');
+var WebSocket = require(51);
 
 /**
  * Module exports.
@@ -6388,9 +6388,9 @@ WS.prototype.check = function(){
   return !!WebSocket && !('__initialize' in WebSocket && this.name === WS.prototype.name);
 };
 
-},{"../transport":28,"component-inherit":35,"debug":36,"engine.io-parser":39,"parseqs":49,"ws":51}],34:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 // browser shim for xmlhttprequest module
-var hasCORS = require('has-cors');
+var hasCORS = require(46);
 
 module.exports = function(opts) {
   var xdomain = opts.xdomain;
@@ -6426,7 +6426,7 @@ module.exports = function(opts) {
   }
 }
 
-},{"has-cors":46}],35:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 module.exports = function(a, b){
   var fn = function(){};
@@ -6442,7 +6442,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = require('./debug');
+exports = module.exports = require(37);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -6583,7 +6583,7 @@ function load() {
 
 exports.enable(load());
 
-},{"./debug":37}],37:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -6597,7 +6597,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = require('ms');
+exports.humanize = require(38);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -6782,7 +6782,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":38}],38:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -6901,11 +6901,11 @@ function plural(ms, n, name) {
  * Module dependencies.
  */
 
-var keys = require('./keys');
-var sliceBuffer = require('arraybuffer.slice');
-var base64encoder = require('base64-arraybuffer');
-var after = require('after');
-var utf8 = require('utf8');
+var keys = require(40);
+var sliceBuffer = require(42);
+var base64encoder = require(43);
+var after = require(41);
+var utf8 = require(45);
 
 /**
  * Check if we are running an android browser. That requires us to use
@@ -6948,7 +6948,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = require('blob');
+var Blob = require(44);
 
 /**
  * Encodes a packet.
@@ -7465,7 +7465,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":40,"after":41,"arraybuffer.slice":42,"base64-arraybuffer":43,"blob":44,"utf8":45}],40:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -7910,7 +7910,7 @@ module.exports = (function() {
  * Module dependencies.
  */
 
-var global = require('global');
+var global = require(47);
 
 /**
  * Module exports.
@@ -7929,7 +7929,7 @@ try {
   module.exports = false;
 }
 
-},{"global":47}],47:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 
 /**
  * Returns `this`. Execute this without a "context" (i.e. without it being
@@ -8106,7 +8106,7 @@ if (WebSocket) ws.prototype = WebSocket.prototype;
  * Module requirements.
  */
 
-var isArray = require('isarray');
+var isArray = require(53);
 
 /**
  * Module exports.
@@ -8161,7 +8161,7 @@ function hasBinary(data) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"isarray":53}],53:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
@@ -8297,8 +8297,8 @@ module.exports = function parseuri(str) {
  * Module requirements
  */
 
-var isArray = require('isarray');
-var isBuf = require('./is-buffer');
+var isArray = require(60);
+var isBuf = require(59);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -8434,18 +8434,18 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":59,"isarray":60}],58:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 
 /**
  * Module dependencies.
  */
 
-var debug = require('debug')('socket.io-parser');
-var json = require('json3');
-var isArray = require('isarray');
-var Emitter = require('component-emitter');
-var binary = require('./binary');
-var isBuf = require('./is-buffer');
+var debug = require(24)('socket.io-parser');
+var json = require(61);
+var isArray = require(60);
+var Emitter = require(23);
+var binary = require(57);
+var isBuf = require(59);
 
 /**
  * Protocol version.
@@ -8832,7 +8832,7 @@ function error(data){
   };
 }
 
-},{"./binary":57,"./is-buffer":59,"component-emitter":23,"debug":24,"isarray":60,"json3":61}],59:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -8851,7 +8851,7 @@ function isBuf(obj) {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],60:[function(require,module,exports){
 module.exports=require(53)
-},{"/Users/jan/Downloads/wall/auto-peer/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/index.js":53}],61:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /*! JSON v3.2.6 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
 ;(function (window) {
   // Convenience aliases.

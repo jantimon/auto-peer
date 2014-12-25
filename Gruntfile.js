@@ -4,6 +4,9 @@ module.exports = function (grunt) {
 
     browserify: {
       dev: {
+        options: {
+          plugin: [require('bundle-collapser/plugin')]
+        },
         src: ['lib/exports.js', 'node_modules/peerjs/lib/exports.js'],
         dest: 'dist/auto-peer.js'
       }
@@ -22,7 +25,7 @@ module.exports = function (grunt) {
         options: {
           banner: '/*! <%= pkg.name %> build:<%= pkg.version %>, development. ' +
             'Copyright(c) 2014 <%= pkg.author %>' +
-            'depends on: http://peerjs.com/ and http://socket.io/ */'
+            ' depends on: http://peerjs.com/ and http://socket.io/ */'
         },
         src: 'dist/auto-peer.js',
         dest: 'dist/auto-peer.js'
@@ -31,7 +34,7 @@ module.exports = function (grunt) {
         options: {
           banner: '/*! <%= pkg.name %> build:<%= pkg.version %>, production. ' +
             'Copyright(c) 2014 <%= pkg.author %>' +
-            'depends on: http://peerjs.com/ and http://socket.io/ */'
+            ' depends on: http://peerjs.com/ and http://socket.io/ */'
         },
         src: 'dist/auto-peer.min.js',
         dest: 'dist/auto-peer.min.js'

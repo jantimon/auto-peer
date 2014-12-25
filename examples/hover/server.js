@@ -1,9 +1,6 @@
 var app = require('express')();
 var http = require('http').Server(app);
-var AutoPeer = require('../../index');
-
-var autoPeer = AutoPeer(http);
-app.get('/auto-peer.js', AutoPeer.clientHelper.middleWare());
+var autoPeer = require('../../index')(http);
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');

@@ -10,7 +10,7 @@ The auto-peer.js library is an experimental webRTC client/server library which r
 
 The idea auto-peer.js was developed when creating a multi media installation for a couple of tablets. It should allow to communicate from tablet to tablet as fast as possible.
 
-![http://engineering.spilgames.com/mastering-webrtc/](http://auth-83051f68-ec6c-44e0-afe5-bd8902acff57.cdn.spilcloud.com/10/1405328465_WebRTC_ping_testresults.png)  
+![http://engineering.spilgames.com/mastering-webrtc/](http://auth-83051f68-ec6c-44e0-afe5-bd8902acff57.cdn.spilcloud.com/10/1405328465_WebRTC_ping_testresults.png)
 from http://engineering.spilgames.com/mastering-webrtc/
 
 ## How does it work?
@@ -26,23 +26,28 @@ Server
 var app = require('express')();
 var http = require('http').Server(app);
 var autoPeer = require('auto-peer')(http);
-app.get('/auto-peer.js', require('auto-peer').clientHelper.middleWare());
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-http.listen(3000, function () {});
+
+http.listen(3000, function () {
+  console.log('listening on *:3000');
+});
 ```
 
 Client
 
-```JavaScript
-// Please get your own free key at http://peerjs.com/
-var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
-autoPeer.on('data', function(data){
-  console.log('received data', data);
-});
-autoPeer.send('This is a message to all connected peers');
+```HTML
+<script src="/auto-peer.min.js"></script>
+<script>
+  // Please get your own free key at http://peerjs.com/
+  var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+  autoPeer.on('data', function(data){
+    console.log('received data', data);
+  });
+  autoPeer.send('This is a message to all connected peers');
+<script>
 ```
 
 

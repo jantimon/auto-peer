@@ -1,34 +1,34 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Playground</title>
-  </head>
-  <body>
+<head>
+  <title>Playground</title>
+</head>
+<body>
 
-    <a id="test">test</a>
+<a id="test">test</a>
 
-    <script src="/auto-peer.min.js"></script>
+<script src="/auto-peer.min.js"></script>
 
-    <script>
-      var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
-      var testingEnvironment = {
-        autoPeer: autoPeer,
-        dataReceived: [],
-        errors: []
-      };
+<script>
+  var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+  var testingEnvironment = {
+    autoPeer: autoPeer,
+    dataReceived: [],
+    errors: []
+  };
 
-      window.onerror = function(err){
-        testingEnvironment.errors.push(err.toString())
-      };
+  window.onerror = function (err) {
+    testingEnvironment.errors.push(err.toString())
+  };
 
-      autoPeer.on('data', function (data) {
-        testingEnvironment.dataReceived.push(data);
-        document.getElementById('test').innerHTML = 'Data: ' + data;
-      });
+  autoPeer.on('data', function (data) {
+    testingEnvironment.dataReceived.push(data);
+    document.getElementById('test').innerHTML = 'Data: ' + data;
+  });
 
-      // Call index.html addAutoPeer
-      parent.addAutoPeerTestingEnvironment(testingEnvironment);
-    </script>
+  // Call index.html addAutoPeer
+  parent.addAutoPeerTestingEnvironment(testingEnvironment);
+</script>
 
-  </body>
+</body>
 </html>

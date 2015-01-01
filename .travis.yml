@@ -7,13 +7,18 @@ node_js:
 env:
   - SLIMERJSLAUNCHER=$(which firefox)
     DISPLAY=:99.0
-    PATH=$TRAVIS_BUILD_DIR/node_modules/slimerjs/lib/slimer:$PATH
-    PATH=$TRAVIS_BUILD_DIR/node_modules/grunt-casper/node_modules/casperjs/bin:$PATH
+    PATH=$TRAVIS_BUILD_DIR/node_modules/grunt-casper/node_modules/casperjs/bin/casperjs:$PATH
+    PATH=$TRAVIS_BUILD_DIR/slimer:$PATH
 addons:
   firefox: "34.0"
 before_script:
   - echo $SLIMERJSLAUNCHER
-  - "sh -e /etc/init.d/xvfb start"
   - npm install -g grunt-cli
-  - node_modules/grunt-casper/node_modules/casperjs/bin/casperjs --version
-  - node_modules/slimerjs/lib/slimer/slimerjs --version
+  - casperjs --version
+before_install:
+  - "echo 'Installing Slimer'"
+  - "wget http://download.slimerjs.org/v0.9/0.9.0/slimerjs-0.9.0.zip"
+  - "unzip slimerjs-0.9.0.zip"
+  - "mv slimerjs-0.9.0 ./slimerjs"
+  - slimerjs --version
+  - "sh -e /etc/init.d/xvfb start"

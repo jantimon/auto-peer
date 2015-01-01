@@ -11,11 +11,6 @@ env:
 addons:
   firefox: "34.0"
 before_script:
-  - echo "Installing $ENGINE $ENGINE_VERSION from $ENGINE_ARCHIVE_URL"
-  - wget $ENGINE_ARCHIVE_URL --output-document=engine.tar.bz2
-  - mkdir engine && tar --strip-components=1 -xvf engine.tar.bz2 -C engine
-  - ls -la $ENGINE_EXECUTABLE && $ENGINE_EXECUTABLE --version;
-  - export ENGINE_EXECUTABLE="$ENGINE_EXECUTABLE $ENGINE_FLAGS"
   - echo $SLIMERJSLAUNCHER
   - "sh -e /etc/init.d/xvfb start"
   - npm install -g casperjs

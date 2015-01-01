@@ -10,7 +10,7 @@
     "url": "git://github.com/jantimon/auto-peer.git"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test --stack --verbose --debug"
   },
   "devDependencies": {
     "bundle-collapser": "^1.1.0",

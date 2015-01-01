@@ -8,11 +8,6 @@ env:
   - SLIMERJSLAUNCHER=$(which firefox)
     DISPLAY=:99.0
     PATH=$TRAVIS_BUILD_DIR/node_modules/.bin:$PATH
-    ENGINE="slimerjs"
-    ENGINE_VERSION="0.9.4"
-    ENGINE_ARCHIVE_URL="http://download.slimerjs.org/releases/0.9.4/slimerjs-0.9.4-linux-x86_64.tar.bz2"
-    ENGINE_EXECUTABLE="engine/slimerjs";
-    ENGINE_FLAGS="--local-to-remote-url-access=yes --ignore-ssl-errors=yes"
 addons:
   firefox: "34.0"
 before_script:

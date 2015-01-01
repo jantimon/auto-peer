@@ -7,11 +7,13 @@ node_js:
 env:
   - SLIMERJSLAUNCHER=$(which firefox)
     DISPLAY=:99.0
-    PATH=$TRAVIS_BUILD_DIR/node_modules/.bin:$PATH
+    PATH=$TRAVIS_BUILD_DIR/node_modules/slimerjs/lib/slimer:$PATH
+    PATH=$TRAVIS_BUILD_DIR/node_modules/grunt-casper/node_modules/casperjs/bin:$PATH
 addons:
   firefox: "34.0"
 before_script:
   - echo $SLIMERJSLAUNCHER
   - "sh -e /etc/init.d/xvfb start"
-  - npm install -g casperjs
   - npm install -g grunt-cli
+  - node_modules/grunt-casper/node_modules/casperjs/bin/casperjs --version
+  - node_modules/slimerjs/lib/slimer/slimerjs --version

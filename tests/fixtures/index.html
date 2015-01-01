@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <title>Playground - Wrapper</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    iframe {
+      box-sizing: border-box;
+      width: 31%;
+      float: left;
+      height: 100%;
+      border: 0 none transparent;
+      border-right: 1px solid #006bae;
+      margin: 0 1%;
+      padding: 0 1%;
+      min-height: 100px;
+    }
+    iframe:first-child {
+      border-left: 1px solid #006bae;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="first"></iframe>
+  <iframe id="second"></iframe>
+  <iframe id="third"></iframe>
+  <script>
+    // Make sure that all iFrames load in the correct order
+    // and store the peer instances
+    var iFrames = document.querySelectorAll('iframe');
+    window.testingEnvironments = [];
+    window.clearData = function(){
+      testingEnvironments.forEach(function(testingEnvironment){
+        testingEnvironment.dataReceived = [];
+      });
+    };
+
+    /**
+     * Called by iframe.html
+     * @param autoPeer
+     */
+    window.addAutoPeerTestingEnvironment = function(testingEnvironment) {
+      var index = testingEnvironments.length;
+      testingEnvironments.push(testingEnvironment);
+      // Load next page
+      if(iFrames[index + 1]) {
+        iFrames[index + 1].src = iFrames[index].src;
+      } else {
+        document.dispatchEvent(new CustomEvent('peers-ready', testingEnvironments));
+        document.body.classList.add('peers-ready');
+      }
+    };
+
+    // Start loading
+    iFrames[0].src = 'iframe.html';
+  </script>
+</body>

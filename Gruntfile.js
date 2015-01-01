@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -39,12 +40,39 @@ module.exports = function (grunt) {
         src: 'dist/auto-peer.min.js',
         dest: 'dist/auto-peer.min.js'
       }
+    },
+
+    run: {
+      test_server: {
+        options: {
+          wait: false
+        },
+        args: [
+          'tests/fixtures/server.js'
+        ]
+      }
+    },
+
+    casper: {
+      options: {
+        engine: 'slimerjs',
+        'fail-fast': true,
+        test: true
+      },
+      files: ['tests/casperjs/**/*.js']
     }
+
+
   });
 
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-run');
+  grunt.loadNpmTasks('grunt-casper');
 
   grunt.registerTask('default', ['browserify', 'uglify', 'concat']);
+
+  grunt.registerTask('test', ['run:test_server', 'casper']);
+
 };

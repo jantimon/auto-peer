@@ -57,11 +57,13 @@ module.exports = function (grunt) {
       options: {
         engine: 'slimerjs',
         'fail-fast': true,
+        'log-level': 'info',
+        verbose: true,
+        parallel: false,
         test: true
       },
       files: ['tests/casperjs/**/*.js']
     }
-
 
   });
 

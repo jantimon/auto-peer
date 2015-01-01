@@ -6,5 +6,7 @@ env:
 addons:
   firefox: "34.0"
 before_script:
+  - "sh -e /etc/init.d/xvfb start"
   - npm install -g casperjs
+  - npm install -g slimerjs
   - npm install -g grunt-cli

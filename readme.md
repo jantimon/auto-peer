@@ -1,4 +1,4 @@
-# auto-peer.js
+# auto-peer.js [![Build Status](https://secure.travis-ci.org/jantimon/auto-peer.svg?branch=master)](http://travis-ci.org/jantimon/auto-peer)  [![Dependency Status](https://david-dm.org/jantimon/auto-peer.svg)](https://david-dm.org/jantimon/auto-peer.png) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 ## Abstract
 
@@ -57,3 +57,9 @@ Client
 
 auto-peer.js is an experimental library and was not meant to be used in productive environment.
 As a client is able to send commands to any other client you should never evaluate html or javascript code transmitted by auto-peer.
+
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+## License
+Copyright (c) 2014 Jan Nicklas. Licensed under the MIT license.

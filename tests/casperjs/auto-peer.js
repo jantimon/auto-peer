@@ -2,7 +2,7 @@ var casper = require('casper').create({
   logLevel: 'info'
 });
 
-casper.test.begin('auto peer', 9, function (test) {
+casper.test.begin('auto peer', 10, function (test) {
 
   // Initialize the testing environment
   casper
@@ -15,22 +15,29 @@ casper.test.begin('auto peer', 9, function (test) {
 
   // Assert that all peers are up and running
   casper.then(function () {
-    var runningPeerCount = casper.evaluate(function () {
+    test.assertEvalEquals(function () {
       return window.testingEnvironments.length;
-    });
-    test.assertEquals(runningPeerCount, 3, 'Three iframes registered their testing environment');
+    }, 3, 'Three iframes registered their testing environment');
+  });
+
+  // Assert that every peer got his client id
+  casper.then(function () {
+    test.assertEvalEquals(function () {
+      return window.testingEnvironments.filter(function (testingEnvironment) {
+        return testingEnvironment.autoPeer.clientId !== undefined;
+      }).length;
+    }, 3, 'Every peer has an id');
   });
 
   // Assert that no peer received any messages by now
   casper.then(function () {
-    var messages = casper.evaluate(function () {
+    test.assertEvalEquals(function () {
       var messages = [];
       window.testingEnvironments.forEach(function (testingEnvironment) {
         messages.concat(testingEnvironment.dataReceived);
       });
       return messages;
-    });
-    test.assertEquals(messages, [], 'No messages received');
+    }, [], 'No messages received');
   });
 
   // Send

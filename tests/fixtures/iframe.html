@@ -15,6 +15,7 @@
   var testingEnvironment = {
     autoPeer: autoPeer,
     dataReceived: [],
+    messageReceived: [],
     errors: []
   };
 
@@ -28,9 +29,10 @@
     parent.addAutoPeerTestingEnvironment(testingEnvironment);
   });
 
-  autoPeer.on('autoPeer:data', function (data) {
+  autoPeer.on('autoPeer:data', function (message, data) {
+    testingEnvironment.messageReceived.push(message);
     testingEnvironment.dataReceived.push(data);
-    document.getElementById('test').innerHTML = 'Data: ' + data;
+    document.getElementById('test').innerHTML = 'Data: ' + message;
   });
 
 </script>

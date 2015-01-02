@@ -38,6 +38,7 @@
   window.clearData = function () {
     testingEnvironments.forEach(function (testingEnvironment) {
       testingEnvironment.dataReceived = [];
+      testingEnvironment.messageReceived = [];
     });
   };
 

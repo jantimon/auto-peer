@@ -1,4 +1,4 @@
-/*! auto-peer build:0.4.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.4.1, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var EventEmitter = require(3);
 var Peer = require(9);
 var io = require(16);
@@ -18,13 +18,32 @@ function AutoPeer(options) {
    *  + autoPeer:eventName
    *  + eventName
    *  + client|server:eventName
-   * @param message
+   *
    * @private
+   * @param message
    */
   function emitMessage(message) {
     _this.emit('autoPeer:data', message.data, message);
     _this.emit(message.event, message.data, message);
     _this.emit(message.prefix + ':' + message.event, message.data, message);
+  }
+
+  /**
+   * Create a message object.
+   * As peer.js doesn't support custom objects this has to be a plain object
+   *
+   * @private
+   * @param event
+   * @param data
+   * @returns {{source: (*|c.clientId|AutoPeer.clientId), event: *, data: *, prefix: string}}
+   */
+  function createMessage(event, data) {
+    return  {
+      source: _this.clientId,
+      event: event,
+      data: data,
+      prefix: 'client'
+    };
   }
 
   socket.on('connected', function (clientId) {
@@ -54,13 +73,19 @@ function AutoPeer(options) {
     }
   });
 
+  /**
+   * Send a named message to all clients
+   * ```
+   *   autoPeer.send('greeting', 'Hey!');
+   * ```
+   *
+   * @public
+   * @param event
+   * @param data
+   * @param sendToMyself
+   */
   _this.send = function (event, data, sendToMyself) {
-    var message = {
-      source: this.clientId,
-      event: event,
-      data: data,
-      prefix: 'client'
-    };
+    var message = createMessage(event, data);
     if (connections) {
       connections.forEach(function (connection) {
         connection.send(message);
@@ -69,6 +94,28 @@ function AutoPeer(options) {
     if (sendToMyself) {
       emitMessage(message);
     }
+  };
+
+  /**
+   * Send a named message to a given client id
+   * ```
+   *   autoPeer.sendTo('gsZlW6Y2r3SuUI8WAAAB', 'greeting', 'Hey!');
+   * ```
+   *
+   * @param target
+   * @param event
+   * @param data
+   * @returns {boolean}
+   */
+  _this.sendTo = function (target, event, data) {
+    if (connections) {
+      return !!connections.filter(function(connection){
+        return connection.peer === target;
+      }).forEach(function(connection) {
+        connection.send(createMessage(event, data));
+      });
+    }
+    return false;
   };
 }
 

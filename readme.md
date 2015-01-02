@@ -52,6 +52,15 @@ Client
 </script>
 ```
 
+## Events
+
+### Client
+
++ autoPeer:connected
+
+### Server
+
++ autoPeer:newClient
 
 ## Security
 

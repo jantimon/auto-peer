@@ -1,4 +1,4 @@
-/*! auto-peer build:0.2.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.3.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var EventEmitter = require(3);
 var Peer = require(9);
 var io = require(16);
@@ -19,7 +19,7 @@ function AutoPeer(options) {
     // Tell other clients to connect to this new peer using webrct
     peer.on('open', function () {
       socket.emit('webrtc', 'connected');
-      _this.emit('connected', clientId);
+      _this.emit('autoPeer:connected', clientId);
     });
     // Outgoing webRTC Connections when socketIo informs this client about a new user
     socket.on('new-connection', function (targetClientId) {

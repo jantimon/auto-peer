@@ -5,6 +5,7 @@
 </head>
 <body>
 
+<h1 id="client-id">Offline</h1>
 <a id="test">test</a>
 
 <script src="/auto-peer.min.js"></script>
@@ -21,13 +22,17 @@
     testingEnvironment.errors.push(err.toString())
   };
 
+  autoPeer.on('autoPeer:connected', function(clientId) {
+    document.getElementById('client-id').innerHTML = clientId;
+    // Call index.html addAutoPeer
+    parent.addAutoPeerTestingEnvironment(testingEnvironment);
+  });
+
   autoPeer.on('data', function (data) {
     testingEnvironment.dataReceived.push(data);
     document.getElementById('test').innerHTML = 'Data: ' + data;
   });
 
-  // Call index.html addAutoPeer
-  parent.addAutoPeerTestingEnvironment(testingEnvironment);
 </script>
 
 </body>

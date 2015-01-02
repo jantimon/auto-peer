@@ -1,43 +1,42 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Playground - Ping</title>
-  </head>
-  <body>
+<head>
+  <title>Playground - Ping</title>
+</head>
+<body>
 
-    <h1 id="client-id"></h1>
-    <p id="result"></p>
+<h1 id="client-id"></h1>
 
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="/auto-peer.min.js"></script>
-    <script>
-      var result = new Array(5);
-      var pingSent;
-      var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+<p id="result"></p>
 
-      autoPeer.on('autoPeer:connected', function (clientId) {
-        document.getElementById('client-id').innerHTML = clientId;
-      });
+<script src="/auto-peer.min.js"></script>
+<script>
+  var result = new Array(5);
+  var pingSent;
+  var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
 
-      autoPeer.on('ping', function(message, data){
-        autoPeer.sendTo(data.source, 'pong');
-      });
+  autoPeer.on('autoPeer:connected', function (clientId) {
+    document.getElementById('client-id').innerHTML = clientId;
+  });
 
-      autoPeer.on('pong', function(message, data){
-        var pongReceived = new Date();
-        result.push(data.source + ': ' + (pongReceived - pingSent) + ' ms');
-        result.shift();
-        document.getElementById('result').innerHTML = result.join('<br/>');
-      });
+  autoPeer.on('ping', function (message, data) {
+    autoPeer.sendTo(data.source, 'pong');
+  });
 
-      setInterval(function(){
-        pingSent = new Date();
-        autoPeer.send('ping');
-      }, 1000);
+  autoPeer.on('pong', function (message, data) {
+    var pongReceived = new Date();
+    result.push(data.source + ': ' + (pongReceived - pingSent) + ' ms');
+    result.shift();
+    document.getElementById('result').innerHTML = result.join('<br/>');
+  });
+
+  setInterval(function () {
+    pingSent = new Date();
+    autoPeer.send('ping');
+  }, 1000);
+
+</script>
 
 
-    </script>
-
-
-  </body>
+</body>
 </html>

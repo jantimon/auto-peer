@@ -1,8 +1,8 @@
 var casper = require('casper').create({
-  logLevel: "info"
+  logLevel: 'info'
 });
 /* global casper */
-casper.test.begin("auto peer", 9, function (test) {
+casper.test.begin('auto peer', 9, function (test) {
 
   // Initialize the testing environment
   casper

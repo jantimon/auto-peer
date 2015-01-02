@@ -1,4 +1,7 @@
+/* jshint camelcase: false */
 module.exports = function (grunt) {
+
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -63,18 +66,24 @@ module.exports = function (grunt) {
         test: true
       },
       files: ['tests/casperjs/**/*.js']
+    },
+
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      files: [
+        'Gruntfile.js',
+        'lib/**/*.js',
+        'tests/casperjs/**/*.js'
+      ]
     }
 
   });
 
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-run');
-  grunt.loadNpmTasks('grunt-casper');
 
-  grunt.registerTask('default', ['browserify', 'uglify', 'concat']);
+  grunt.registerTask('default', ['jshint', 'browserify', 'uglify', 'concat']);
 
-  grunt.registerTask('test', ['run:test_server', 'casper']);
+  grunt.registerTask('test', ['jshint', 'run:test_server', 'casper']);
 
 };

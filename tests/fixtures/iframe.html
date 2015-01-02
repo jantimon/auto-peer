@@ -28,7 +28,7 @@
     parent.addAutoPeerTestingEnvironment(testingEnvironment);
   });
 
-  autoPeer.on('data', function (data) {
+  autoPeer.on('autoPeer:data', function (data) {
     testingEnvironment.dataReceived.push(data);
     document.getElementById('test').innerHTML = 'Data: ' + data;
   });

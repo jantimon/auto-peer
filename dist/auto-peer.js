@@ -1,4 +1,4 @@
-/*! auto-peer build:0.3.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.4.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var EventEmitter = require(3);
 var Peer = require(9);
 var io = require(16);
@@ -11,8 +11,22 @@ function AutoPeer(options) {
   var socket = io();
   var _this = this;
   _this.socket = socket;
-
   var connections = [];
+
+  /**
+   * Emit three data events:
+   *  + autoPeer:eventName
+   *  + eventName
+   *  + client|server:eventName
+   * @param message
+   * @private
+   */
+  function emitMessage(message) {
+    _this.emit('autoPeer:data', message.data, message);
+    _this.emit(message.event, message.data, message);
+    _this.emit(message.prefix + ':' + message.event, message.data, message);
+  }
+
   socket.on('connected', function (clientId) {
     // Open webrtc connection
     var peer = new Peer(clientId, options);
@@ -34,20 +48,26 @@ function AutoPeer(options) {
     // Called when a new initializeWebRTC is created
     function initializeWebRTC(connection) {
       connection.on('data', function (data) {
-        _this.emit('data', data);
+        emitMessage(data);
       });
       connections.push(connection);
     }
   });
 
-  _this.send = function (data, self) {
+  _this.send = function (event, data, sendToMyself) {
+    var message = {
+      source: this.clientId,
+      event: event,
+      data: data,
+      prefix: 'client'
+    };
     if (connections) {
       connections.forEach(function (connection) {
-        connection.send(data);
+        connection.send(message);
       });
     }
-    if (self) {
-      _this.emit('data', data);
+    if (sendToMyself) {
+      emitMessage(message);
     }
   };
 }

@@ -45,10 +45,10 @@ Client
 <script>
   // Please get your own free key at http://peerjs.com/
   var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
-  autoPeer.on('data', function(data){
+  autoPeer.on('example-message', function(data){
     console.log('received data', data);
   });
-  autoPeer.send('This is a message to all connected peers');
+  autoPeer.send('example-message', 'This is a message to all connected peers');
 </script>
 ```
 
@@ -57,6 +57,7 @@ Client
 ### Client
 
 + autoPeer:connected
++ autoPeer:data
 
 ### Server
 

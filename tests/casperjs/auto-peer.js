@@ -40,16 +40,11 @@ casper.test.begin('auto peer', 10, function (test) {
     }, [], 'No messages received');
   });
 
-  // Send
-  casper.evaluate(function () {
-    window.testingEnvironments[0].autoPeer.send('hello-peers');
-  });
-
   // Assert that sending a message from the first peer will be received by the second and the third peer
   casper.then(function () {
     // Send
     casper.evaluate(function () {
-      window.testingEnvironments[0].autoPeer.send('hello-peers');
+      window.testingEnvironments[0].autoPeer.send('data', 'hello-peers');
     });
     // Wait for 100ms
     casper.wait(100);
@@ -74,7 +69,7 @@ casper.test.begin('auto peer', 10, function (test) {
     // Send
     casper.evaluate(function () {
       window.clearData();
-      window.testingEnvironments[0].autoPeer.send('hello-peers-send-self', true);
+      window.testingEnvironments[0].autoPeer.send('data', 'hello-peers-send-self', true);
     });
     // Wait for 100ms
     casper.wait(100);

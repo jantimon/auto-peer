@@ -39,7 +39,7 @@
 
       Object.keys($.fn).forEach(function(name){
         $sync.prototype[name] = function() {
-          autoPeer.send({
+          autoPeer.send('data', {
             selector: this.selector,
             fn: name,
             args:  Array.prototype.slice.call(arguments)

@@ -59,11 +59,11 @@ autoPeer.broadcast(messageName, data, sendToSelf);
 
 + messageName - name of the message
 + data - optional data
-+ sendToSelf - optional send message also to the current peer
++ sendToSelf - optional (only for client version) send message also to the current peer 
 
 
 ```js
-autoPeer.sendTo(clientId, data, sendToSelf);
+autoPeer.sendTo(clientId, messageName, data);
 ```
 
 + clientId - the peer id the message should be send to

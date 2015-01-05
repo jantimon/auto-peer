@@ -46,9 +46,30 @@ Client
   autoPeer.on('example-message', function(data){
     console.log('received data', data);
   });
-  autoPeer.send('example-message', 'This is a message to all connected peers');
+  autoPeer.broadcast('example-message', 'This is a message to all connected peers');
 </script>
 ```
+
+## Api
+
+
+```js
+autoPeer.broadcast(messageName, data, sendToSelf);
+```
+
++ messageName - name of the message
++ data - optional data
++ sendToSelf - optional send message also to the current peer
+
+
+```js
+autoPeer.sendTo(clientId, data, sendToSelf);
+```
+
++ clientId - the peer id the message should be send to
++ messageName - name of the message
++ data - optional data
+
 
 ## Events
 

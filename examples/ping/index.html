@@ -32,7 +32,7 @@
 
   setInterval(function () {
     pingSent = new Date();
-    autoPeer.send('ping');
+    autoPeer.broadcast('ping');
   }, 1000);
 
 </script>

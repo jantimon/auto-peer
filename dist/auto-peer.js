@@ -1,4 +1,4 @@
-/*! auto-peer build:0.6.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.7.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Sub class of the original Peer.js class
  */
@@ -57,7 +57,14 @@ Object.keys(AutoPeer.customPeerJsFunctions).forEach(function (functionName) {
   };
 });
 
-AutoPeer.prototype.send = function (event, data, sendToMyself) {
+/**
+ * Send a message to every other peer
+ *
+ * @param event
+ * @param data
+ * @param sendToMyself
+ */
+AutoPeer.prototype.broadcast = function (event, data, sendToMyself) {
   var _this = this;
   Object.keys(_this.peers).forEach(function (peerId) {
     if (peerId !== _this.clientId || sendToMyself) {
@@ -66,17 +73,23 @@ AutoPeer.prototype.send = function (event, data, sendToMyself) {
   });
 };
 
-AutoPeer.prototype.sendTo = function (target, event, data) {
+/**
+ * Send a message to the given peerId
+ * @param peerId
+ * @param event
+ * @param data
+ */
+AutoPeer.prototype.sendTo = function (peerId, event, data) {
   var message = {
     source: this.clientId,
     event: event,
     data: data,
     prefix: 'client'
   };
-  if (target === this.clientId) {
+  if (peerId === this.clientId) {
     this._emitMessage(message);
-  } else if (this.peers[target].connection) {
-    this.peers[target].connection.send(message);
+  } else if (this.peers[peerId].connection) {
+    this.peers[peerId].connection.send(message);
   }
 };
 

@@ -43,7 +43,7 @@ casper.test.begin('auto peer', 14, function (test) {
     // Send
     casper.evaluate(function () {
       window.clearData();
-      window.testingEnvironments[0].autoPeer.send('data', 'hello-peers');
+      window.testingEnvironments[0].autoPeer.broadcast('data', 'hello-peers');
     });
     // Wait for 100ms
     casper.wait(100);
@@ -68,7 +68,7 @@ casper.test.begin('auto peer', 14, function (test) {
     // Send
     casper.evaluate(function () {
       window.clearData();
-      window.testingEnvironments[0].autoPeer.send('data', 'hello-peers-send-self', true);
+      window.testingEnvironments[0].autoPeer.broadcast('data', 'hello-peers-send-self', true);
     });
     // Wait for 100ms
     casper.wait(100);

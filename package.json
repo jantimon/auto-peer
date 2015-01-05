@@ -23,12 +23,12 @@
     "grunt-run": "^0.3.0",
     "load-grunt-tasks": "^2.0.0",
     "request": "^2.51.0",
-    "slimerjs": "^0.9.2"
+    "slimerjs": "^0.9.2",
+    "grunt-casper": "^0.4.1"
   },
   "dependencies": {
     "eventemitter3": "^0.1.6",
     "express": "^4.10.6",
-    "grunt-casper": "^0.4.1",
     "peer": "^0.2.8",
     "peerjs": "git+https://github.com/peers/peerjs.git"
   }

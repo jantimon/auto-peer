@@ -41,13 +41,20 @@ Client
 ```HTML
 <script src="/auto-peer.min.js"></script>
 <script>
-  var autoPeer = new AutoPeer();
-  autoPeer.on('example-message', function(data){
-    console.log('received data', data);
-  });
-  autoPeer.on('autoPeer:connected', function(clientId) {
-    autoPeer.broadcast('example-message', 'This is a message to all connected peers from ' + clientId, true);
-  });
+    var autoPeer = new AutoPeer();
+    // Wait until autoPeer connected
+    autoPeer.on('autoPeer:connected', function (clientId) {
+      autoPeer.broadcast('example-message', 'This is a message to all connected peers from ' + clientId);
+    });
+
+    // Wait for incoming messages
+    autoPeer.on('example-message', function (message, data) {
+      console.log('received data:', message);
+      // Reply kindly
+      if (message !== 'thank you') {
+        autoPeer.sendTo(data.source, 'example-message', 'thank you');
+      }
+    });
 </script>
 ```
 

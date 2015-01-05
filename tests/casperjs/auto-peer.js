@@ -11,8 +11,6 @@ casper.test.begin('auto peer', 14, function (test) {
       });
     }, 10000);
 
-  casper.wait(5000);
-
   // Assert that all peers are up and running
   casper.then(function () {
     test.assertEvalEquals(function () {

@@ -1,4 +1,4 @@
-/*! auto-peer build:0.5.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.6.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Sub class of the original Peer.js class
  */
@@ -20,13 +20,10 @@ function AutoPeer(options) {
     key: 'peerjs'
   }, options || {});
 
+  // Ready state
+  _this.ready = false;
   // Create a new instance of the PatchedPeerJs class
   _this.peerJs = new Peer(options);
-  // Set clientId
-  _this.on('autoPeer:connected', function (clientId) {
-    _this.clientId = clientId;
-    _this.peers[clientId] = false;
-  });
   // Wait for server messages
   _this.peerJs.on('autoPeer', _this._onMessageFromServer.bind(this));
   // Incoming webRTC Connections
@@ -78,37 +75,51 @@ AutoPeer.prototype.sendTo = function (target, event, data) {
   };
   if (target === this.clientId) {
     this._emitMessage(message);
-  } else if (this.peers[target]) {
-    this.peers[target].send(message);
+  } else if (this.peers[target].connection) {
+    this.peers[target].connection.send(message);
   }
 };
 
 AutoPeer.prototype._onMessageFromServer = function (message) {
   if (message.event === 'autoPeer:peerCollectionUpdate') {
+    this.clientId = this.peerJs.id;
     this._setPeers(message.data);
   }
   this._emitMessage(message);
 };
 
-AutoPeer.prototype._setPeers = function (clients) {
+AutoPeer.prototype._setPeers = function (peerCollectionUpdate) {
   var _this = this;
-  clients = clients.filter(function (peerId) {
-    return peerId !== _this.clientId;
-  });
+  var peers = peerCollectionUpdate.peers;
+  var newPeer = peerCollectionUpdate.newPeer;
+
+  if (newPeer !== _this.clientId) {
+    // Add peers
+    _this._connectPeer(newPeer);
+  } else {
+    // Wait for connection
+    peers.forEach(function (peerId) {
+      _this.peers[peerId] = { state: 'waiting' };
+    });
+    _this.peers[newPeer] = { state: 'self' };
+  }
+
   // Remove disconnected peers
   Object.keys(_this.peers).filter(function (peerId) {
-    return clients.indexOf(peerId) === -1;
+    return peers.indexOf(peerId) === -1;
   }).forEach(function (peerId) {
     _this._disconnectPeer(_this.peers[peerId], peerId);
   });
-  // Get new peers
-  var newClients = clients.filter(function (peerId) {
-    return !_this.peers[peerId];
+
+  _this._updateReadyState();
+};
+
+AutoPeer.prototype.getWaitingPeers = function () {
+  var _this = this;
+  return Object.keys(_this.peers).filter(function (peerId) {
+    var peer = _this.peers[peerId];
+    return !peer || peer.state === 'waiting' || peer.state === 'connecting';
   });
-  // Add new peers
-  newClients.forEach(_this._connectPeer.bind(_this));
-  // Add self
-  _this.peers[_this.clientId] = false;
 };
 
 /**
@@ -118,9 +129,9 @@ AutoPeer.prototype._setPeers = function (clients) {
  * @param message
  */
 AutoPeer.prototype._disconnectPeer = function (peer, peerId) {
-  if (peer) {
-    peer.removeAllListeners();
-    peer.close();
+  if (peer.connection) {
+    peer.connection.removeAllListeners();
+    peer.connection.close();
   }
   delete(this.peers[peerId]);
 };
@@ -143,13 +154,41 @@ AutoPeer.prototype._connectPeer = function (peerId) {
  */
 AutoPeer.prototype._addPeer = function (connection) {
   var _this = this;
-  if (_this.peers[connection.peer]) {
-    _this.peers[connection.peer].removeAllListeners();
+  var peer = {
+    state: 'connecting',
+    connection: connection
+  };
+
+  if (_this.peers[connection.peer] && _this.peers[connection.peer].connection) {
+    _this.peers[connection.peer].connection.removeAllListeners();
   }
   connection.on('data', function (data) {
     _this._emitMessage(data);
   });
-  _this.peers[connection.peer] = connection;
+  this.peers[connection.peer] = peer;
+
+  // Wait until the connection is open
+  peer.connection.once('open', function () {
+    peer.state = 'connected';
+    _this._updateReadyState();
+    if (connection.peer !== this.clientId) {
+      _this.emit('autoPeer:peerJoined', connection.peer);
+    }
+  });
+};
+
+/**
+ * Checks if all peers are ready and fires the autoPeer:connected event
+ *
+ * @private
+ */
+AutoPeer.prototype._updateReadyState = function () {
+  var _this = this;
+  // Send ready event as soon as no more peers are establishing a connection
+  if (!this.ready && this.getWaitingPeers().length === 0) {
+    this.ready = true;
+    _this.emit('autoPeer:connected', this.clientId);
+  }
 };
 
 /**

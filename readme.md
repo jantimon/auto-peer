@@ -54,12 +54,23 @@ Client
 
 ### Client
 
-+ autoPeer:connected
-+ autoPeer:data
+#### autoPeer:connected
+
+Fired when the current peer is connected to every other peer
+
+#### autoPeer:data
+
+Fired when the current peer receives any data
+
+#### autoPeer:peerJoined
+
+Fired when another peer joined
 
 ### Server
 
-+ autoPeer:newClient
+#### autoPeer:newClient
+
+Fired when a new client connected to the server
 
 ## Security
 

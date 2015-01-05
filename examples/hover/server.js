@@ -1,11 +1,9 @@
 var app = require('express')();
-var http = require('http').Server(app);
-var autoPeer = require('../../index')(http);
+var autoPeer = require('../../index');
+var server = app.listen(3000);
+
+app.use(autoPeer(server).app);
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
-});
-
-http.listen(3000, function () {
-  console.log('listening on *:3000');
 });

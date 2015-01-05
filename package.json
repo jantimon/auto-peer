@@ -1,6 +1,6 @@
 {
   "name": "auto-peer",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Automatic peer connection",
   "author": "Jan Nicklas",
   "main": "./lib/auto-peer.js",
@@ -29,8 +29,7 @@
     "eventemitter3": "^0.1.6",
     "express": "^4.10.6",
     "grunt-casper": "^0.4.1",
-    "peerjs": "git+https://github.com/peers/peerjs.git",
-    "socket.io": "1.2.1",
-    "socket.io-client": "1.2.1"
+    "peer": "^0.2.8",
+    "peerjs": "git+https://github.com/peers/peerjs.git"
   }
 }

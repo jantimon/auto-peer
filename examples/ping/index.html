@@ -13,7 +13,7 @@
 <script>
   var result = new Array(5);
   var pingSent;
-  var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+  var autoPeer = new AutoPeer();
 
   autoPeer.on('autoPeer:connected', function (clientId) {
     document.getElementById('client-id').innerHTML = clientId;

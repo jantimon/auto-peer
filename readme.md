@@ -4,7 +4,7 @@
 
 auto-peer.js automates the peer.js connection establishment and connects all auto-peer.js clients with each other using webRTC.
 
-The auto-peer.js library is an experimental webRTC client/server library which relies heavily on peerjs and socket.io
+The auto-peer.js library is an experimental webRTC client/server library which relies heavily on peerjs
 
 ## Motivation
 
@@ -26,15 +26,13 @@ Server
 
 ```JavaScript
 var app = require('express')();
-var http = require('http').Server(app);
-var autoPeer = require('auto-peer')(http);
+var server = app.listen(3000);
+var autoPeer = require('auto-peer')(server);
+
+app.use(autoPeer.app);
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
-});
-
-http.listen(3000, function () {
-  console.log('listening on *:3000');
 });
 ```
 
@@ -44,7 +42,7 @@ Client
 <script src="/auto-peer.min.js"></script>
 <script>
   // Please get your own free key at http://peerjs.com/
-  var autoPeer = new AutoPeer({key: 'lwjd5qra8257b9'});
+  var autoPeer = new AutoPeer();
   autoPeer.on('example-message', function(data){
     console.log('received data', data);
   });

@@ -44,6 +44,7 @@ casper.test.begin('auto peer', 14, function (test) {
   casper.then(function () {
     // Send
     casper.evaluate(function () {
+      window.clearData();
       window.testingEnvironments[0].autoPeer.send('data', 'hello-peers');
     });
     // Wait for 100ms

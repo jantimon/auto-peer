@@ -7,15 +7,22 @@
       position: absolute;
       display: block;
       border: 1px solid transparent;
+      height: 50px;
+      width: 50px;
+      background: orange;
     }
     #test.over {
       border-color: red;
     }
+    * {
+      overflow: hidden;
+    }
     </style>
+    <meta name="viewport" content="width=device-width">
   </head>
   <body>
 
-    <a id="test">test</a>
+    <span id="test"></span>
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="/auto-peer.min.js"></script>
@@ -52,14 +59,16 @@
       var dragging = false
       $(function () {
         var $target = $sync('#test');
-        $('#test').mousedown(function() { dragging = true })
-        $(document).mouseup(function() { dragging = false })
-        $(document).mousemove(function(e) {
+        $('#test').on('mousedown touchstart', function() { dragging = true })
+        $(document).on('mouseup touchend',function() { dragging = false })
+        $(document).on('mousemove touchmove', function(e) {
           if(dragging){
+            var touches = e.originalEvent.touches;
             $target.css({
-              'left': e.pageX,
-              'top': e.pageY
+              'left': touches ? touches[0].pageX : e.pageX,
+              'top': touches ? touches[0].pageY : e.pageY
             });
+            return false;
           }
         })
       })

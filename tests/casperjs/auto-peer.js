@@ -8,8 +8,8 @@ casper.test.begin('auto peer', 14, function (test) {
   casper
     .start('http://127.0.0.1:3001/', function () {
       return this.waitForSelector('body.peers-ready', function () {
-      });
-    }, 10000);
+      }, 10000);
+    });
 
   // Assert that all peers are up and running
   casper.then(function () {
@@ -126,21 +126,26 @@ casper.test.begin('auto peer', 14, function (test) {
     });
   });
 
-  // Assert that no client side javascript errors occurred
+  // Initialize the parallel testing environment
   casper.then(function () {
-    var errors = casper.evaluate(function () {
-      var errors = [];
-      window.testingEnvironments.forEach(function (testingEnvironment) {
-        errors.concat(testingEnvironment.errors);
-      });
-      return errors;
+    casper.page.close();
+    casper.thenOpen('http://127.0.0.1:3001/parallel.html', function () {
+      return this.waitForSelector('body.peers-ready', function () {
+      }, 20000);
+    })
+    .then(function(){
+      test.assertEvalEquals(function () {
+        return window.testingEnvironments.length;
+      }, 5, 'Five iframes registered their testing environment in parallel');
     });
-    test.assertEquals(errors, [], 'No client side javascript errors received');
   });
 
   // Launch casper
   casper.run(function () {
-    this.exit(test.done());
+    console.log('End');
+    setTimeout(function() {
+      casper.exit(test.done());
+    }, 100);
   });
 
 });

@@ -57,15 +57,15 @@
           // Send dragging state to all peers including the current instance
           autoPeer.broadcast('dragging', dragging, true);
         });
-        $(document).on('mousemove touchmove', function (e) {
+        $(document).on('mousemove touchmove', function (event) {
           if (dragging) {
             event.preventDefault();
-            var touches = e.originalEvent.touches;
+            var touches = event.originalEvent.touches;
             // While dragging send position updates
             // to all peers including the current instance
             autoPeer.broadcast('position-update', {
-              'left': touches ? touches[0].pageX : e.pageX,
-              'top': touches ? touches[0].pageY : e.pageY
+              'left': touches ? touches[0].pageX : event.pageX,
+              'top': touches ? touches[0].pageY : event.pageY
             }, true);
           }
         });

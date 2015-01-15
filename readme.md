@@ -18,9 +18,16 @@ from http://engineering.spilgames.com/mastering-webrtc/
 auto-peer.js core consists of a node websocket backend and a client side script.
 When the user opens the application a new client is created. This client asks the backend to tell all existing clients to establish a new webRTC connection.
 
+## Demos
+
+
+  [![http://runnable.com/favicon.ico](http://runnable.com/favicon.ico)   Drag'n'Drop](http://runnable.com/VLf8lzN2CN07H5Jl/auto-peer-drag-example-for-node-js)
+
+  [![http://runnable.com/favicon.ico](http://runnable.com/favicon.ico)   Ping](http://runnable.com/VLfOe_WNcp9fB-0u/auto-peer-ping-example-for-node-js)
+
 ## Example
 
-[**Live demo** on runnable](http://runnable.com/VLfOe_WNcp9fB-0u/auto-peer-ping-example-for-node-js)
+
 
 [Take a look at the example directory](https://github.com/jantimon/auto-peer/tree/master/examples).
 
@@ -69,7 +76,7 @@ autoPeer.broadcast(messageName, data, sendToSelf);
 
 + messageName - name of the message
 + data - optional data
-+ sendToSelf - optional (only for client version) send message also to the current peer 
++ sendToSelf - optional (only for client version) send message also to the current peer
 
 
 ```js

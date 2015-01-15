@@ -20,6 +20,8 @@ When the user opens the application a new client is created. This client asks th
 
 ## Example
 
+[**Live demo** on runnable](http://runnable.com/VLfOe_WNcp9fB-0u/auto-peer-ping-example-for-node-js)
+
 [Take a look at the example directory](https://github.com/jantimon/auto-peer/tree/master/examples).
 
 Server

@@ -48,18 +48,18 @@
         // User interactions
         var dragging = false
         $target.on('mousedown touchstart', function () {
+          dragging = true;
           // Send dragging state to all peers including the current instance
-          autoPeer.broadcast('dragging', true, true);
-          dragging = true
+          autoPeer.broadcast('dragging', dragging, true);
         });
         $(document).on('mouseup touchend', function () {
+          dragging = false;
           // Send dragging state to all peers including the current instance
-          autoPeer.broadcast('dragging', false, true);
-          dragging = false
+          autoPeer.broadcast('dragging', dragging, true);
         });
         $(document).on('mousemove touchmove', function (e) {
-          console.log(dragging);
           if (dragging) {
+            event.preventDefault();
             var touches = e.originalEvent.touches;
             // While dragging send position updates
             // to all peers including the current instance
@@ -67,7 +67,6 @@
               'left': touches ? touches[0].pageX : e.pageX,
               'top': touches ? touches[0].pageY : e.pageY
             }, true);
-            return false;
           }
         });
       });

@@ -90,6 +90,9 @@ autoPeer.sendTo(clientId, messageName, data);
 
 ## Events
 
+auto-peer inherits from [eventEmitter3](https://github.com/primus/EventEmitter3). for API methods see the official Node.js documentation:  
+http://nodejs.org/api/events.html
+
 ### Client
 
 #### autoPeer:connected

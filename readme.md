@@ -48,6 +48,7 @@ app.get('/', function (req, res) {
 Client
 
 ```HTML
+<!-- The auto-peer server delivers the client script at /auto-peer.min.js -->
 <script src="/auto-peer.min.js"></script>
 <script>
     var autoPeer = new AutoPeer();

@@ -11,7 +11,7 @@
 
 <script src="/auto-peer.min.js"></script>
 <script>
-  var result = new Array(5);
+  var result = {};
   var pingSent;
   var autoPeer = new AutoPeer();
 
@@ -25,12 +25,20 @@
 
   autoPeer.on('pong', function (message, data) {
     var pongReceived = new Date();
-    result.push(data.source + ': ' + (pongReceived - pingSent) + ' ms');
-    result.shift();
-    document.getElementById('result').innerHTML = result.join('<br/>');
+    result[data.source] = pongReceived - pingSent;
   });
 
+  function render() {
+    var keys = Object.keys(result)
+    keys.sort();
+    document.getElementById('result').innerHTML = keys.map(function(clientId) {
+      return clientId + ': ' + result[clientId] + 'ms';
+    }).join('<br/>');
+  }
+
   setInterval(function () {
+    render();
+    result = {};
     pingSent = new Date();
     autoPeer.broadcast('ping');
   }, 1000);

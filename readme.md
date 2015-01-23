@@ -15,6 +15,8 @@ from http://engineering.spilgames.com/mastering-webrtc/
 
 ## How does it work?
 
+**tl;dr: WebRTC with a node signaling server**
+
 auto-peer.js core consists of a node websocket backend and a client side script.
 When the user opens the application a new client is created. This client asks the backend to tell all existing clients to establish a new webRTC connection.
 
@@ -91,7 +93,7 @@ autoPeer.sendTo(clientId, messageName, data);
 
 ## Events
 
-auto-peer inherits from [eventEmitter3](https://github.com/primus/EventEmitter3). for API methods see the official Node.js documentation:  
+auto-peer inherits from [eventEmitter3](https://github.com/primus/EventEmitter3). for API methods see the official Node.js documentation:
 http://nodejs.org/api/events.html
 
 ### Client

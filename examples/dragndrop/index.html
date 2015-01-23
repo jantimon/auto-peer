@@ -27,8 +27,9 @@
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="/auto-peer.min.js"></script>
     <script>
+      var autoPeer;
       jQuery(function ($) {
-        var autoPeer = new AutoPeer();
+        autoPeer = new AutoPeer();
 
         var $target = $('#draggable');
 

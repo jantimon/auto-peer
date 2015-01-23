@@ -1,4 +1,4 @@
-/*! auto-peer build:0.7.1, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! auto-peer build:0.8.0, development. Copyright(c) 2014 Jan Nicklas depends on: http://peerjs.com/ and http://socket.io/ */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Sub class of the original Peer.js class
  */
@@ -32,7 +32,8 @@ function AutoPeer(options) {
 
 AutoPeer.prototype = new EventEmitter();
 
-AutoPeer.prototype.peers = {};
+AutoPeer.prototype.peers = {
+};
 
 AutoPeer.customPeerJsFunctions = {
   _handleMessage: function (peerJsHandleMessageFunction) {
@@ -88,9 +89,32 @@ AutoPeer.prototype.sendTo = function (peerId, event, data) {
   };
   if (peerId === this.clientId) {
     this._emitMessage(message);
+  } else if (peerId === 'server') {
+    this.sendToServer(event, data);
   } else if (this.peers[peerId].connection) {
     this.peers[peerId].connection.send(message);
   }
+};
+
+/**
+ * Send a message to the given peerId
+ * @param peerId
+ * @param event
+ * @param data
+ */
+AutoPeer.prototype.sendToServer = function(event, data) {
+  this.peerJs.socket.send({
+    type: 'ANSWER',
+    payload: {
+      type: 'auto-peer',
+        message: {
+          event: event,
+          data: data,
+          source: this.clientId,
+          prefix: 'client'
+      }
+    }
+  });
 };
 
 AutoPeer.prototype._onMessageFromServer = function (message) {
@@ -115,11 +139,12 @@ AutoPeer.prototype._setPeers = function (peerCollectionUpdate) {
       _this.peers[peerId] = { state: 'waiting' };
     });
     _this.peers[newPeer] = { state: 'self' };
+    _this.peers.server = { state: 'server' };
   }
 
   // Remove disconnected peers
   Object.keys(_this.peers).filter(function (peerId) {
-    return peers.indexOf(peerId) === -1;
+    return peers.indexOf(peerId) === -1 && peerId !== 'server';
   }).forEach(function (peerId) {
     _this._disconnectPeer(_this.peers[peerId], peerId);
   });

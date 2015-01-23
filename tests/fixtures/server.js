@@ -13,3 +13,8 @@ app.use(express.static(__dirname));
 autoPeer.on('autoPeer:newClient', function (id) {
   console.log(id);
 });
+
+autoPeer.on('mirror', function(message, data) {
+  console.log('Received message: ', message);
+  autoPeer.sendTo(data.source, 'mirrored', message);
+});

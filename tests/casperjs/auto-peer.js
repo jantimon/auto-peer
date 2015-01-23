@@ -2,7 +2,7 @@ var casper = require('casper').create({
   logLevel: 'info'
 });
 
-casper.test.begin('auto peer', 14, function (test) {
+casper.test.begin('auto peer', 16, function (test) {
 
   // Initialize the testing environment
   casper
@@ -123,6 +123,44 @@ casper.test.begin('auto peer', 14, function (test) {
         'data': 'hello-peer-two',
         'prefix': 'client'
       }], 'Send-to-two: Message was sent from peer one');
+    });
+  });
+
+  // Assert that the server receives and sends messages
+  casper.then(function () {
+    // Send
+    casper.evaluate(function () {
+      window.clearData();
+      window.testingEnvironments[0].autoPeer.sendTo('server', 'mirror', 'hello-server');
+    });
+    // Wait for 100ms
+    casper.wait(150);
+
+    casper.then(function () {
+      // Test
+      test.assertEvalEquals(function () {
+        return window.testingEnvironments[0].messageReceived;
+      }, ['hello-server'], 'Send-self: Peer one received a message from the server');
+
+    });
+  });
+
+  // Assert that the server receives and sends messages
+  casper.then(function () {
+    // Send
+    casper.evaluate(function () {
+      window.clearData();
+      window.testingEnvironments[0].autoPeer.broadcast('mirror', 'hello-peers-and-server', false);
+    });
+    // Wait for 100ms
+    casper.wait(150);
+
+    casper.then(function () {
+      // Test
+      test.assertEvalEquals(function () {
+        return window.testingEnvironments[0].messageReceived;
+      }, ['hello-peers-and-server'], 'Send-self: Peer one received a message from the server');
+
     });
   });
 
